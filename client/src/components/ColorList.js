@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import axios from "axios";
+import { useHistory } from "react-router-dom";
+
+import { axiosWithAuth } from "../utils/axiosWithAuth";
 
 const initialColor = {
   color: "",
@@ -7,9 +9,14 @@ const initialColor = {
 };
 
 const ColorList = ({ colors, updateColors }) => {
-  console.log(colors);
-  const [editing, setEditing] = useState(false);
+  // Initializing the colorToEdit var to state. This will hold the currently selected color to be updated using the .PUT method
   const [colorToEdit, setColorToEdit] = useState(initialColor);
+
+  // Here, I'm using state
+  const [editing, setEditing] = useState(false);
+  console.log(colorToEdit);
+
+  const history = useHistory();
 
   const editColor = color => {
     setEditing(true);
@@ -18,13 +25,41 @@ const ColorList = ({ colors, updateColors }) => {
 
   const saveEdit = e => {
     e.preventDefault();
+    setEditing(false);
     // Make a put request to save your updated color
     // think about where will you get the id from...
     // where is is saved right now?
+    updateHandler(colorToEdit);
   };
 
+  const updateHandler = colorToEdit => {
+    axiosWithAuth()
+      .put(`/api/colors/${colorToEdit.id}`, colorToEdit)
+      .then(response => {
+        const newColors = colors.map(color => {
+          if (color.id === colorToEdit.id) {
+            return response.data;
+          }
+          return color;
+        });
+        updateColors(newColors);
+      })
+      .then(history.push("/protected"))
+      .catch(err => console.log(err));
+  };
+
+  // make a delete request to delete this color
   const deleteColor = color => {
-    // make a delete request to delete this color
+    console.log("FROM ColorList: ", color);
+    axiosWithAuth()
+      .delete(`/api/colors/${color.id}`)
+      .then(res => {
+        console.log(res.data);
+        const newColors = colors.filter(c => c.id !== color.id);
+        updateColors(newColors);
+        history.push(`/protected`);
+      })
+      .catch(err => console.log(err));
   };
 
   return (
@@ -34,12 +69,14 @@ const ColorList = ({ colors, updateColors }) => {
         {colors.map(color => (
           <li key={color.color} onClick={() => editColor(color)}>
             <span>
-              <span className="delete" onClick={e => {
-                    e.stopPropagation();
-                    deleteColor(color)
-                  }
-                }>
-                  x
+              <span
+                className="delete"
+                onClick={e => {
+                  e.stopPropagation();
+                  deleteColor(color);
+                }}
+              >
+                x
               </span>{" "}
               {color.color}
             </span>
