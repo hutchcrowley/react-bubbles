@@ -8,7 +8,7 @@ const Spinner = () => {
         src={require("../Assets/spinner.gif")}
         alt="loading..."
       />
-      <h1>You must be logged in to view the friends!</h1>
+      <h1>You must be logged in to view the bubbles!</h1>
     </div>
   );
 };
