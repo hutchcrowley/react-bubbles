@@ -1,21 +1,26 @@
-import React, { useState } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import React from "react";
+import { Route, Switch } from "react-router-dom";
 
+import Home from "./components/Home";
+
+import BubblePage from "./components/BubblePage";
 import Login from "./components/Login";
+import ProtectedRoute from "./utils/ProtectedRoute";
+import NoMatch from "./components/NoMatch";
+
 import "./styles.scss";
 
-function App() {
+const App = () => {
   return (
-    <Router>
-      <div className="App">
-        <Route exact path="/" component={Login} />
-        {/* 
-          Build a PrivateRoute component that will 
-          display BubblePage when you're authenticated 
-        */}
-      </div>
-    </Router>
+    <div className="App">
+      <Switch>
+        <ProtectedRoute path="/protected" component={BubblePage} />
+        <Route exact path="/" component={Home} />
+        <Route path="/login" component={Login} />
+        <Route component={NoMatch} />
+      </Switch>
+    </div>
   );
-}
+};
 
 export default App;

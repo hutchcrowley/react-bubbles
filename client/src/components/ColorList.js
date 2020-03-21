@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import axios from "axios";
+import { useHistory } from "react-router-dom";
+
+import { axiosWithAuth } from "../utils/axiosWithAuth";
 
 const initialColor = {
   color: "",
@@ -7,9 +9,20 @@ const initialColor = {
 };
 
 const ColorList = ({ colors, updateColors }) => {
-  console.log(colors);
-  const [editing, setEditing] = useState(false);
+  // Initializing the colorToEdit var to state. This will hold the currently selected color to be updated using the .PUT method
   const [colorToEdit, setColorToEdit] = useState(initialColor);
+
+  // Here, I'm setting the editing status of the color to edit to staate
+  const [editing, setEditing] = useState(false);
+  console.log(colorToEdit);
+
+  // Creating an adding variable, adding to state, initialize to false
+  const [adding, setAdding] = useState(false);
+
+  // creating a new variable to hold the color to add
+  const [colorToAdd, setColorToAdd] = useState(initialColor);
+
+  const history = useHistory();
 
   const editColor = color => {
     setEditing(true);
@@ -18,13 +31,62 @@ const ColorList = ({ colors, updateColors }) => {
 
   const saveEdit = e => {
     e.preventDefault();
+    setEditing(false);
     // Make a put request to save your updated color
     // think about where will you get the id from...
     // where is is saved right now?
+    updateHandler(colorToEdit);
   };
 
-  const deleteColor = color => {
+  const addColor = color => {
+    setAdding(true);
+    setColorToAdd(color);
+  };
+  
+  const updateHandler = colorToEdit => {
+    axiosWithAuth()
+      .put(`/api/colors/${colorToEdit.id}`, colorToEdit)
+      .then(response => {
+        const newColors = colors.map(color => {
+          if (color.id === colorToEdit.id) {
+            return response.data;
+          }
+          return color;
+        });
+        updateColors(newColors);
+      })
+      .then(history.push("/protected"))
+      .catch(err => console.log(err));
+    };
+    
+      const submitAdd = e => {
+        e.preventDefault();
+        setAdding(false)
+      }
+
+      const addHandler = colorToAdd => {
+        axiosWithAuth()
+        .put(`/api/colors/${colorToAdd.id}`, colorToAdd)
+        .then(res => {
+          const newColor = colors.map(color => {
+            if (color.id === colorToAdd.id) {
+                                                                                       
+            }
+          })
+        })
+      }
     // make a delete request to delete this color
+    const deleteColor = color => {
+      console.log("FROM ColorList: ", color);
+    axiosWithAuth()
+      .delete(`/api/colors/${color.id}`)
+      .then(res => {
+        console.log(res.data);
+        const newColors = colors.filter(c => c.id !== color.id);
+        updateColors(newColors);
+        history.push(`/protected`);
+      })
+      .catch(err => console.log(err));
   };
 
   return (
@@ -34,12 +96,14 @@ const ColorList = ({ colors, updateColors }) => {
         {colors.map(color => (
           <li key={color.color} onClick={() => editColor(color)}>
             <span>
-              <span className="delete" onClick={e => {
-                    e.stopPropagation();
-                    deleteColor(color)
-                  }
-                }>
-                  x
+              <span
+                className="delete"
+                onClick={e => {
+                  e.stopPropagation();
+                  deleteColor(color);
+                }}
+              >
+                x
               </span>{" "}
               {color.color}
             </span>
