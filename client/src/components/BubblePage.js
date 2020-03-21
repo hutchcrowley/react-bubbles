@@ -1,39 +1,19 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 import Bubbles from "./Bubbles";
 import ColorList from "./ColorList";
-import Spinner from "./Spinner";
-
-import { axiosWithAuth } from "../utils/axiosWithAuth";
 
 const BubblePage = () => {
   const [colorList, setColorList] = useState([]);
-
-  const [isLoading, setIsLoading] = useState();
-
-  useEffect(() => {
-    axiosWithAuth()
-      .get(`/api/colors`)
-      .then(setIsLoading(true))
-      .then(res => {
-        console.log(res.data);
-        setColorList(res.data);
-        setIsLoading(false);
-      })
-      .catch(err => console.log(err));
-  }, []);
+  // fetch your colors data from the server when the component mounts
+  // set that data to the colorList state property
 
   return (
-    <div className="bubble-page">
-      {!isLoading ? (
-        <div className="color-list-wrapper">
-          <ColorList colors={colorList} updateColors={setColorList} />
-          <Bubbles colors={colorList} />
-        </div>
-      ) : (
-        <Spinner />
-      )}
-    </div>
+    <>
+      <ColorList colors={colorList} updateColors={setColorList} />
+      <Bubbles colors={colorList} />
+    </>
   );
 };
 
