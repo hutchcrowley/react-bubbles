@@ -16,6 +16,12 @@ const ColorList = ({ colors, updateColors }) => {
   const [editing, setEditing] = useState(false);
   console.log(colorToEdit);
 
+  // Creating an adding variable, adding to state, initialize to false
+  const [adding, setAdding] = useState(false);
+
+  // creating a new variable to hold the color to add
+  const [colorToAdd, setColorToAdd] = useState(initialColor);
+
   const history = useHistory();
 
   const editColor = color => {
@@ -32,6 +38,11 @@ const ColorList = ({ colors, updateColors }) => {
     updateHandler(colorToEdit);
   };
 
+  const addColor = color => {
+    setAdding(true);
+    setColorToAdd(color);
+  };
+  
   const updateHandler = colorToEdit => {
     axiosWithAuth()
       .put(`/api/colors/${colorToEdit.id}`, colorToEdit)
@@ -46,11 +57,27 @@ const ColorList = ({ colors, updateColors }) => {
       })
       .then(history.push("/protected"))
       .catch(err => console.log(err));
-  };
+    };
+    
+      const submitAdd = e => {
+        e.preventDefault();
+        setAdding(false)
+      }
 
-  // make a delete request to delete this color
-  const deleteColor = color => {
-    console.log("FROM ColorList: ", color);
+      const addHandler = colorToAdd => {
+        axiosWithAuth()
+        .put(`/api/colors/${colorToAdd.id}`, colorToAdd)
+        .then(res => {
+          const newColor = colors.map(color => {
+            if (color.id === colorToAdd.id) {
+                                                                                       
+            }
+          })
+        })
+      }
+    // make a delete request to delete this color
+    const deleteColor = color => {
+      console.log("FROM ColorList: ", color);
     axiosWithAuth()
       .delete(`/api/colors/${color.id}`)
       .then(res => {
