@@ -12,7 +12,7 @@ const ColorList = ({ colors, updateColors }) => {
   // Initializing the colorToEdit var to state. This will hold the currently selected color to be updated using the .PUT method
   const [colorToEdit, setColorToEdit] = useState(initialColor);
 
-  // Here, I'm using state
+  // Here, I'm setting the editing status of the color to edit to staate
   const [editing, setEditing] = useState(false);
   console.log(colorToEdit);
 
