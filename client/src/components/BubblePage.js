@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 
+import NavBar from "./NavBar";
 import Bubbles from "./Bubbles";
 import ColorList from "./ColorList";
 import Spinner from "./Spinner";
@@ -25,11 +26,14 @@ const BubblePage = () => {
 
   return (
     <div className="bubble-page">
+      <div className="bubble-nav">
+        <NavBar />
+      </div>
       {!isLoading ? (
-        <div className="color-list-wrapper">
+        <>
           <ColorList colors={colorList} updateColors={setColorList} />
           <Bubbles colors={colorList} />
-        </div>
+        </>
       ) : (
         <Spinner />
       )}
