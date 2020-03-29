@@ -8,12 +8,6 @@ const initialColor = {
   code: { hex: "" }
 };
 
-const addColor = {
-  id: Math.random(Date.now()),
-  color: "",
-  code: { hex: "" }
-};
-
 const ColorList = ({ colors, updateColors }) => {
   // Initializing the colorToEdit var to state. This will hold the currently selected color to be updated using the .PUT method
   const [colorToEdit, setColorToEdit] = useState(initialColor);
@@ -25,19 +19,61 @@ const ColorList = ({ colors, updateColors }) => {
   // setting the editing status of the color to edit to staate
   const [adding, setAdding] = useState(false);
 
-  const [newColor, setColorToAdd] = useState(addColor);
-  console.log("newColor variable in the BubblePage component: ", newColor);
+  const [colorToAdd, setColorToAdd] = useState(initialColor);
 
   const history = useHistory();
 
+  const addSwitch = (adding, editing) => {
+    if (editing) {
+      setAdding(!adding);
+      setEditing(!editing);
+    } else {
+      return;
+    }
+  };
+
+  const editSwitch = (adding, editing) => {
+    if (!adding) {
+      setAdding(false);
+      setEditing(!editing);
+    }
+  };
+
+  // function that handles the inputs of the add color form
+  const addHandler = e => {
+    e.preventDefault();
+    setEditing(!editing);
+    setColorToAdd({
+      ...colorToAdd,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  // function that makes a post request to add a new color
+  function handleAdd(colorToAdd) {
+    axiosWithAuth()
+      .post(`/api/colors`, colorToAdd)
+      .then(res => {
+        const newColors = colors.map(color => {
+          if (color) {
+            return res.data;
+          }
+          return color, newColors;
+        });
+        updateColors(newColors);
+      })
+      .then(history.push("/protected"))
+      .catch(err => console.log("ERROR: ", err));
+  }
+
+  // function that enables editing via the edit form
   const editColor = color => {
-    setEditing(true);
-    setAdding(false);
     setColorToEdit(color);
   };
 
+  // function that sends data to the updateHandler function
   const saveEdit = e => {
-    e.stopPropagation();
+    e.preventDefault();
     setEditing(false);
     // Make a put request to save your updated color
     // think about where will you get the id from...
@@ -45,12 +81,7 @@ const ColorList = ({ colors, updateColors }) => {
     updateHandler(colorToEdit);
   };
 
-  const submitAdd = newColor => {
-    colors.filter(color => color.id !== colors.id);
-    setAdding(false);
-    addHandler(newColor);
-  };
-
+  // function to  make a put request to the server to edit a color by color.id
   function updateHandler(colorToEdit) {
     axiosWithAuth()
       .put(`/api/colors/${colorToEdit.id}`, colorToEdit)
@@ -65,22 +96,6 @@ const ColorList = ({ colors, updateColors }) => {
       })
       .then(history.push("/protected"))
       .catch(err => console.log(err));
-  }
-
-  function addHandler(newColor) {
-    axiosWithAuth()
-      .post(`/api/colors`, newColor)
-      .then(res => {
-        const newColors = colors.map(color => {
-          if (color.id === newColor.id) {
-            return res.data;
-          }
-          return color;
-        });
-        updateColors(newColors);
-      })
-      .then(history.push("/protected"))
-      .catch(err => console.log("ERROR: ", err));
   }
 
   // make a delete request to delete this color
@@ -103,19 +118,14 @@ const ColorList = ({ colors, updateColors }) => {
       <ul>
         <li>
           <span className="add-wrap">
-            <span
-              className="add"
-              onClick={() => {
-                setAdding(true);
-              }}
-            >
+            <div className="add" onClick={() => addSwitch()}>
               +
-            </span>
+            </div>
             <p>Add New Color</p>
           </span>
         </li>
         {colors.map(color => (
-          <li key={color.color} onClick={() => editColor(color)}>
+          <li key={color.color} onClick={e => editSwitch(e)}>
             <span>
               <span
                 className="delete"
@@ -168,31 +178,26 @@ const ColorList = ({ colors, updateColors }) => {
         </form>
       )}
       {adding && (
-        <form className="add-wrapper" onSubmit={submitAdd}>
+        <form className="add-wrapper" onSubmit={() => handleAdd(colorToAdd)}>
           <legend>add color</legend>
           <label>
             <p>color name:</p>
             <input
-              onChange={e =>
-                setColorToAdd({ ...newColor, color: e.target.value })
-              }
-              value={newColor.color}
+              onChange={e => addHandler(e)}
+              value={colorToAdd.color}
+              name="color"
             />
           </label>
           <label>
             hex code:
             <input
-              onChange={e =>
-                setColorToAdd({
-                  ...newColor,
-                  code: { hex: e.target.value }
-                })
-              }
-              value={newColor.code.hex}
+              onChange={e => addHandler(e)}
+              value={colorToAdd.code.hex}
+              name="code"
             />
           </label>
           <div className="button-row">
-            <button type="submit">Add</button>
+            <button type="submit">Add Color</button>
           </div>
         </form>
       )}

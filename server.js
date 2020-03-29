@@ -100,6 +100,7 @@ function authenticator(req, res, next) {
   }
 }
 
+// endpoint for creating a new login/ auth token
 app.post("/api/login", (req, res) => {
   const { username, password } = req.body;
   if (username === "Lambda School" && password === "i<3Lambd4") {
@@ -116,10 +117,12 @@ app.post("/api/login", (req, res) => {
   }
 });
 
+// endpoint for getting the colors array data
 app.get("/api/colors", authenticator, (req, res) => {
   res.send(colors);
 });
 
+// endpoint for adding a new color
 app.post("/api/colors", authenticator, (req, res) => {
   if (req.body.color !== undefined && req.body.code !== undefined) {
     const newcolor = req.body;
@@ -130,6 +133,7 @@ app.post("/api/colors", authenticator, (req, res) => {
   res.status(201).json(colors);
 });
 
+// endpoint for editing an existing color
 app.put("/api/colors/:id", authenticator, (req, res) => {
   if (!req.params.id)
     res.status(400).send("Your request is missing the color id");
@@ -147,6 +151,7 @@ app.put("/api/colors/:id", authenticator, (req, res) => {
   res.status(200).send(req.body);
 });
 
+// endpoint for deleting a color
 app.delete("/api/colors/:id", authenticator, (req, res) => {
   if (!req.params.id)
     res.status(400).send("Your request is missing the color id");
@@ -154,6 +159,7 @@ app.delete("/api/colors/:id", authenticator, (req, res) => {
   res.status(202).send(req.params.id);
 });
 
+// tests if server is running and connected to front end
 app.get("/", function(req, res) {
   res.send("App is working 👍");
 });
