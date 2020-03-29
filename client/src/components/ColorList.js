@@ -11,24 +11,67 @@ const initialColor = {
 const ColorList = ({ colors, updateColors }) => {
   // Initializing the colorToEdit var to state. This will hold the currently selected color to be updated using the .PUT method
   const [colorToEdit, setColorToEdit] = useState(initialColor);
+  console.log("colorToEdit variable in ColorList component: ", colorToEdit);
 
-  // Here, I'm setting the editing status of the color to edit to staate
+  // setting the editing status of the color to edit to staate
   const [editing, setEditing] = useState(false);
-  console.log(colorToEdit);
 
-  // Creating an adding variable, adding to state, initialize to false
+  // setting the editing status of the color to edit to staate
   const [adding, setAdding] = useState(false);
 
-  // creating a new variable to hold the color to add
   const [colorToAdd, setColorToAdd] = useState(initialColor);
 
   const history = useHistory();
 
+  const addSwitch = (adding, editing) => {
+    if (editing) {
+      setAdding(!adding);
+      setEditing(!editing);
+    } else {
+      return;
+    }
+  };
+
+  const editSwitch = (adding, editing) => {
+    if (!adding) {
+      setAdding(false);
+      setEditing(!editing);
+    }
+  };
+
+  // function that handles the inputs of the add color form
+  const addHandler = e => {
+    e.preventDefault();
+    setEditing(!editing);
+    setColorToAdd({
+      ...colorToAdd,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  // function that makes a post request to add a new color
+  function handleAdd(colorToAdd) {
+    axiosWithAuth()
+      .post(`/api/colors`, colorToAdd)
+      .then(res => {
+        const newColors = colors.map(color => {
+          if (color) {
+            return res.data;
+          }
+          return color, newColors;
+        });
+        updateColors(newColors);
+      })
+      .then(history.push("/protected"))
+      .catch(err => console.log("ERROR: ", err));
+  }
+
+  // function that enables editing via the edit form
   const editColor = color => {
-    setEditing(true);
     setColorToEdit(color);
   };
 
+  // function that sends data to the updateHandler function
   const saveEdit = e => {
     e.preventDefault();
     setEditing(false);
@@ -38,46 +81,26 @@ const ColorList = ({ colors, updateColors }) => {
     updateHandler(colorToEdit);
   };
 
-  const addColor = color => {
-    setAdding(true);
-    setColorToAdd(color);
-  };
-  
-  const updateHandler = colorToEdit => {
+  // function to  make a put request to the server to edit a color by color.id
+  function updateHandler(colorToEdit) {
     axiosWithAuth()
       .put(`/api/colors/${colorToEdit.id}`, colorToEdit)
       .then(response => {
-        const newColors = colors.map(color => {
+        const updatedColors = colors.map(color => {
           if (color.id === colorToEdit.id) {
             return response.data;
           }
           return color;
         });
-        updateColors(newColors);
+        updateColors(updatedColors);
       })
       .then(history.push("/protected"))
       .catch(err => console.log(err));
-    };
-    
-      const submitAdd = e => {
-        e.preventDefault();
-        setAdding(false)
-      }
+  }
 
-      const addHandler = colorToAdd => {
-        axiosWithAuth()
-        .put(`/api/colors/${colorToAdd.id}`, colorToAdd)
-        .then(res => {
-          const newColor = colors.map(color => {
-            if (color.id === colorToAdd.id) {
-                                                                                       
-            }
-          })
-        })
-      }
-    // make a delete request to delete this color
-    const deleteColor = color => {
-      console.log("FROM ColorList: ", color);
+  // make a delete request to delete this color
+  function deleteColor(color) {
+    console.log("FROM ColorList: ", color);
     axiosWithAuth()
       .delete(`/api/colors/${color.id}`)
       .then(res => {
@@ -87,14 +110,22 @@ const ColorList = ({ colors, updateColors }) => {
         history.push(`/protected`);
       })
       .catch(err => console.log(err));
-  };
+  }
 
   return (
     <div className="colors-wrap">
-      <p>colors</p>
+      <h2>colors</h2>
       <ul>
+        <li>
+          <span className="add-wrap">
+            <div className="add" onClick={() => addSwitch()}>
+              +
+            </div>
+            <p>Add New Color</p>
+          </span>
+        </li>
         {colors.map(color => (
-          <li key={color.color} onClick={() => editColor(color)}>
+          <li key={color.color} onClick={e => editSwitch(e)}>
             <span>
               <span
                 className="delete"
@@ -115,7 +146,7 @@ const ColorList = ({ colors, updateColors }) => {
         ))}
       </ul>
       {editing && (
-        <form onSubmit={saveEdit}>
+        <form className="edit-wrap" onSubmit={saveEdit}>
           <legend>edit color</legend>
           <label>
             color name:
@@ -140,12 +171,36 @@ const ColorList = ({ colors, updateColors }) => {
           </label>
           <div className="button-row">
             <button type="submit">save</button>
-            <button onClick={() => setEditing(false)}>cancel</button>
+            <button type="button" onClick={() => setEditing(false)}>
+              cancel
+            </button>
           </div>
         </form>
       )}
-      <div className="spacer" />
-      {/* stretch - build another form here to add a color */}
+      {adding && (
+        <form className="add-wrapper" onSubmit={() => handleAdd(colorToAdd)}>
+          <legend>add color</legend>
+          <label>
+            <p>color name:</p>
+            <input
+              onChange={e => addHandler(e)}
+              value={colorToAdd.color}
+              name="color"
+            />
+          </label>
+          <label>
+            hex code:
+            <input
+              onChange={e => addHandler(e)}
+              value={colorToAdd.code.hex}
+              name="code"
+            />
+          </label>
+          <div className="button-row">
+            <button type="submit">Add Color</button>
+          </div>
+        </form>
+      )}
     </div>
   );
 };

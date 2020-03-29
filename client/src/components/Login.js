@@ -4,6 +4,8 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 
 const Login = () => {
+  const [loggedIn, setLoggedIn] = useState(false);
+
   const [state, setState] = useState({
     username: "",
     password: ""

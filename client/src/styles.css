@@ -1,0 +1,733 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat&display=swap");
+html,
+body,
+#root {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  width: 100vw;
+  height: 1400px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+html .App,
+body .App,
+#root .App {
+  font-family: "Montserrat", sans-serif;
+  min-height: 100%;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column;
+          flex-flow: column;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: rgba(0, 0, 0, 0.493);
+}
+
+html .App .home-wrapper,
+body .App .home-wrapper,
+#root .App .home-wrapper {
+  height: auto;
+}
+
+html .App svg,
+body .App svg,
+#root .App svg {
+  height: 100%;
+}
+
+html .App .app-nav,
+body .App .app-nav,
+#root .App .app-nav {
+  height: 120px;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row nowrap;
+          flex-flow: row nowrap;
+  -ms-flex-line-pack: center;
+      align-content: center;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+
+html .App .app-nav .login-nav,
+body .App .app-nav .login-nav,
+#root .App .app-nav .login-nav {
+  width: 25%;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+  height: 100%;
+  margin-left: 8rem;
+  -ms-flex-line-pack: justify;
+      align-content: space-between;
+  justify-items: center;
+}
+
+html .App .app-nav .login-nav .login-form,
+body .App .app-nav .login-nav .login-form,
+#root .App .app-nav .login-nav .login-form {
+  width: 40%;
+  margin-top: 0.8rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+}
+
+html .App .app-nav .login-nav .login-form input,
+body .App .app-nav .login-nav .login-form input,
+#root .App .app-nav .login-nav .login-form input {
+  margin-bottom: 10px;
+  border-radius: 2px;
+  padding-left: 0.5rem;
+  height: 1.2rem;
+}
+
+html .App .app-nav .login-nav .login-form button,
+body .App .app-nav .login-nav .login-form button,
+#root .App .app-nav .login-nav .login-form button {
+  width: 70%;
+  padding: 0.25rem;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  border-radius: 2px;
+  font-weight: bold;
+}
+
+html .App .app-nav .login-nav .login-form button:hover,
+body .App .app-nav .login-nav .login-form button:hover,
+#root .App .app-nav .login-nav .login-form button:hover {
+  border: 4px outset rgba(100, 60, 200, 0.4);
+}
+
+html .App .app-nav .links,
+body .App .app-nav .links,
+#root .App .app-nav .links {
+  height: 100%;
+  width: 45%;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  justify-self: flex-end;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+}
+
+html .App .app-nav .links .nav-link:hover,
+body .App .app-nav .links .nav-link:hover,
+#root .App .app-nav .links .nav-link:hover {
+  background-color: #000;
+  color: #fff;
+}
+
+html .App .app-nav .links .nav-link,
+body .App .app-nav .links .nav-link,
+#root .App .app-nav .links .nav-link {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  height: 100%;
+  width: 45%;
+  text-decoration: none;
+  color: #000;
+  font-weight: 800;
+  font-size: 25pt;
+}
+
+html .App .hero,
+body .App .hero,
+#root .App .hero {
+  margin-bottom: 2rem;
+  border-top: 2px solid black;
+  width: 75%;
+  text-align: center;
+  padding-top: 4-rem;
+}
+
+html .App .hero h1,
+body .App .hero h1,
+#root .App .hero h1 {
+  font-size: 40pt;
+  font-weight: lighter;
+}
+
+html .App .bubble-page,
+body .App .bubble-page,
+#root .App .bubble-page {
+  -webkit-box-shadow: 20px 20px 10px blueviolet;
+          box-shadow: 20px 20px 10px blueviolet;
+  background-color: #1b1b1b;
+  width: 55vw;
+  margin-top: 1rem;
+  padding: 2rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  justify-items: space-around;
+  height: auto;
+  min-height: 100%;
+  border-radius: 20px;
+  border: 20px inset #c0c0c0;
+  text-align: center;
+}
+
+html .App .bubble-page .spinner-center,
+body .App .bubble-page .spinner-center,
+#root .App .bubble-page .spinner-center {
+  color: #fff;
+  -webkit-transform: scale(0.6);
+          transform: scale(0.6);
+}
+
+html .App .bubble-page .spinner-center .spinner,
+body .App .bubble-page .spinner-center .spinner,
+#root .App .bubble-page .spinner-center .spinner {
+  border-radius: 500px;
+}
+
+html .App .bubble-page .bubble-nav,
+body .App .bubble-page .bubble-nav,
+#root .App .bubble-page .bubble-nav {
+  height: 90px;
+  margin-bottom: 2rem;
+  width: 100%;
+  background-color: #fff;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+html .App .bubble-page .bubble-nav .app-nav,
+body .App .bubble-page .bubble-nav .app-nav,
+#root .App .bubble-page .bubble-nav .app-nav {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-line-pack: center;
+      align-content: center;
+  height: 100%;
+  width: 100%;
+}
+
+html .App .bubble-page .bubble-nav .app-nav .login-form,
+body .App .bubble-page .bubble-nav .app-nav .login-form,
+#root .App .bubble-page .bubble-nav .app-nav .login-form {
+  display: none;
+}
+
+html .App .bubble-page .bubble-nav .links,
+body .App .bubble-page .bubble-nav .links,
+#root .App .bubble-page .bubble-nav .links {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  justify-items: space-around;
+  height: 100%;
+}
+
+html .App .bubble-page .bubble-nav .links a,
+body .App .bubble-page .bubble-nav .links a,
+#root .App .bubble-page .bubble-nav .links a {
+  margin: 0 2rem;
+}
+
+html .App .bubble-page h2,
+body .App .bubble-page h2,
+#root .App .bubble-page h2 {
+  margin-bottom: 2rem;
+}
+
+html .App .spacer,
+body .App .spacer,
+#root .App .spacer {
+  display: block;
+  height: auto;
+  -webkit-box-flex: unset;
+      -ms-flex-positive: unset;
+          flex-grow: unset;
+}
+
+html .App .home-wrapper,
+body .App .home-wrapper,
+#root .App .home-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100%;
+}
+
+html .App .bubble-wrap,
+body .App .bubble-wrap,
+#root .App .bubble-wrap {
+  margin: 1rem auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+html .App .bubble-wrap h2,
+body .App .bubble-wrap h2,
+#root .App .bubble-wrap h2 {
+  color: #fff;
+}
+
+html .App .colors-wrap,
+body .App .colors-wrap,
+#root .App .colors-wrap {
+  height: auto;
+  width: 300px;
+  background-color: #fff;
+  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+          box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+html .App .colors-wrap ul,
+body .App .colors-wrap ul,
+#root .App .colors-wrap ul {
+  list-style: none;
+  text-align: start;
+}
+
+html .App .colors-wrap ul li,
+body .App .colors-wrap ul li,
+#root .App .colors-wrap ul li {
+  cursor: pointer;
+  padding: 6px 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  width: 100%;
+}
+
+html .App .add-wrapper,
+body .App .add-wrapper,
+#root .App .add-wrapper {
+  border: 6px outset #017511;
+  padding: 1.5rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin: 3rem 1rem 2rem 1rem;
+  color: #fff;
+  background-color: #094627;
+}
+
+html .App .add-wrapper legend,
+body .App .add-wrapper legend,
+#root .App .add-wrapper legend {
+  color: green;
+  font-size: 14pt;
+}
+
+html .App .add,
+body .App .add,
+#root .App .add {
+  font-size: 18pt;
+  color: green;
+}
+
+html .App .delete,
+body .App .delete,
+#root .App .delete {
+  color: #d85757;
+}
+
+html .App .color-box,
+body .App .color-box,
+#root .App .color-box {
+  height: 16px;
+  width: 16px;
+  border: 1px lightgray solid;
+  margin-right: 36px;
+}
+
+html .App .add-wrap,
+body .App .add-wrap,
+#root .App .add-wrap {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 15px;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row nowrap;
+          flex-flow: row nowrap;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+html .App .add-wrap p,
+body .App .add-wrap p,
+#root .App .add-wrap p {
+  margin: 0 35px;
+  font-size: 12pt;
+  font-weight: bold;
+}
+
+html .App .edit-wrap,
+body .App .edit-wrap,
+#root .App .edit-wrap {
+  border: 6px outset #4e4e4e;
+  padding: 1.5rem;
+  justify-items: center;
+  margin: 3rem 1rem 2rem 1rem;
+}
+
+html .App .edit-wrap form,
+body .App .edit-wrap form,
+#root .App .edit-wrap form {
+  margin-top: 60px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+html .App .edit-wrap form legend,
+body .App .edit-wrap form legend,
+#root .App .edit-wrap form legend {
+  padding-left: 40px;
+  font-weight: bold;
+  text-align: left;
+  text-decoration: underline;
+  margin-bottom: 16px;
+}
+
+html .App .edit-wrap form label,
+body .App .edit-wrap form label,
+#root .App .edit-wrap form label {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row nowrap;
+          flex-flow: row nowrap;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: 4px 36px 4px 40px;
+  margin-left: -2rem;
+  height: 15px;
+}
+
+html .App .edit-wrap form p,
+body .App .edit-wrap form p,
+#root .App .edit-wrap form p {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row nowrap;
+          flex-flow: row nowrap;
+  font-size: 10pt;
+}
+
+html .App .edit-wrap form input,
+body .App .edit-wrap form input,
+#root .App .edit-wrap form input {
+  width: 110px;
+  height: 20px;
+  margin-bottom: 1rem;
+}
+
+html .App .edit-wrap .button-row,
+body .App .edit-wrap .button-row,
+#root .App .edit-wrap .button-row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: 0 36px 0 41px;
+}
+
+html .App .edit-wrap .button-row button,
+body .App .edit-wrap .button-row button,
+#root .App .edit-wrap .button-row button {
+  border: none;
+  background-color: black;
+  color: white;
+  padding: 3px 8px;
+  margin-top: 16px;
+}
+
+@media screen and (max-width: 950px) {
+  .bubble-nav .app-nav {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-flow: row nowrap;
+            flex-flow: row nowrap;
+    width: 100%;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -ms-flex-pack: distribute;
+        justify-content: space-around;
+    margin-bottom: 1rem;
+  }
+  .bubble-nav .login-nav {
+    position: absolute;
+    left: -999px;
+  }
+  .bubble-nav .login-nav .login-form {
+    margin-top: 1rem;
+    width: 10rem;
+    height: auto;
+    padding: 0.7rem;
+  }
+  .bubble-nav .login-nav .login-form input {
+    margin-bottom: 1px;
+  }
+  .bubble-nav .links {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    border: none;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-flow: column nowrap;
+            flex-flow: column nowrap;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    height: auto;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    width: 100%;
+  }
+  .bubble-nav .links .nav-link,
+  .bubble-nav .links a {
+    width: 100%;
+    font-size: 16pt;
+    margin-right: 3rem;
+    display: block;
+  }
+}
+
+@media screen and (max-width: 850px) {
+  .App {
+    height: auto;
+    width: 100%;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: start;
+        -ms-flex-pack: start;
+            justify-content: flex-start;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: reverse;
+        -ms-flex-flow: column-reverse nowrap;
+            flex-flow: column-reverse nowrap;
+  }
+  .App .app-nav {
+    height: auto;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    margin-bottom: 2rem;
+  }
+  .App .app-nav .login-nav {
+    height: auto;
+    min-height: 100px;
+  }
+  .App .app-nav .login-nav .login-form {
+    margin-top: 1rem;
+    width: 4rem;
+  }
+  .App .app-nav .links {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    border: none;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-flow: row nowrap;
+            flex-flow: row nowrap;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    height: auto;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    margin-left: 1rem;
+    width: 10rem;
+  }
+  .App .app-nav .links .nav-link,
+  .App .app-nav .links a {
+    font-size: 16pt;
+    margin-right: 3rem;
+    display: block;
+  }
+  .App .hero {
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+  }
+  .App .hero h1 {
+    margin: 0;
+  }
+  .App .bubble-page {
+    width: 100vw;
+    border: none;
+    -webkit-box-shadow: none;
+            box-shadow: none;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-flow: column nowrap;
+            flex-flow: column nowrap;
+    height: 100vh;
+    margin-top: 0;
+    border-radius: 0;
+  }
+  .App .bubble-page .spinner-center .spinner {
+    -webkit-transform: scale(0.75);
+            transform: scale(0.75);
+  }
+  .App .colors-wrap {
+    text-align: center;
+    -webkit-box-shadow: none;
+            box-shadow: none;
+    background-color: #fff;
+    height: auto;
+  }
+  .App .spacer {
+    visibility: none;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .App .app-nav {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-flow: row nowrap;
+            flex-flow: row nowrap;
+  }
+  .App .app-nav .links {
+    margin: 0;
+  }
+  .App .login-nav {
+    -ms-flex-pack: distribute;
+        justify-content: space-around;
+  }
+  .App .bubble-page {
+    width: 100%;
+    border: none;
+    padding-top: 6rem;
+    -webkit-box-shadow: none;
+            box-shadow: none;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-flow: column nowrap;
+            flex-flow: column nowrap;
+    height: 100vh;
+    margin: 0 auto;
+  }
+  .App .bubble-page .spinner-center {
+    color: #fff;
+  }
+  .App .bubble-page .spinner-center .spinner {
+    -webkit-transform: scale(0.6);
+            transform: scale(0.6);
+  }
+  .App .bubble-page .colors-wrap {
+    -webkit-box-shadow: none;
+            box-shadow: none;
+    background-color: #fff;
+    width: 90vw;
+    height: auto;
+  }
+  .App .bubble-page .bubble-wrap {
+    width: auto;
+  }
+  .App .bubble-page svg {
+    -webkit-transform: scaleY(1);
+            transform: scaleY(1);
+  }
+  .App .edit-wrap {
+    border: 6px outset #4e4e4e;
+    padding: 0.5rem 1.2rem;
+    justify-items: center;
+    margin: 3rem 1rem 0 1rem;
+  }
+}
+/*# sourceMappingURL=styles.css.map */
