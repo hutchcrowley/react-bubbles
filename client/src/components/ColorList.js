@@ -23,26 +23,22 @@ const ColorList = ({ colors, updateColors }) => {
 
   const history = useHistory();
 
-  const addSwitch = (adding, editing) => {
-    if (editing) {
-      setAdding(!adding);
+  const addSwitch = () => {
+    if (!adding) {
+      setAdding(adding);
       setEditing(!editing);
-    } else {
-      return;
     }
   };
 
-  const editSwitch = (adding, editing) => {
-    if (!adding) {
-      setAdding(false);
-      setEditing(!editing);
+  const editSwitch = () => {
+    if (!editing) {
+      setEditing(editing);
+      setAdding(!adding);
     }
   };
 
   // function that handles the inputs of the add color form
   const addHandler = e => {
-    e.preventDefault();
-    setEditing(!editing);
     setColorToAdd({
       ...colorToAdd,
       [e.target.name]: e.target.value
@@ -50,7 +46,8 @@ const ColorList = ({ colors, updateColors }) => {
   };
 
   // function that makes a post request to add a new color
-  function handleAdd(colorToAdd) {
+  function handleAdd(e, colorToAdd) {
+    e.preventDefault();
     axiosWithAuth()
       .post(`/api/colors`, colorToAdd)
       .then(res => {
@@ -58,7 +55,7 @@ const ColorList = ({ colors, updateColors }) => {
           if (color) {
             return res.data;
           }
-          return color, newColors;
+          return newColors;
         });
         updateColors(newColors);
       })
@@ -67,14 +64,16 @@ const ColorList = ({ colors, updateColors }) => {
   }
 
   // function that enables editing via the edit form
-  const editColor = color => {
-    setColorToEdit(color);
+  const editColor = e => {
+    setColorToEdit({
+      ...colorToEdit,
+      [e.target.name]: e.target.value
+    });
   };
 
   // function that sends data to the updateHandler function
   const saveEdit = e => {
     e.preventDefault();
-    setEditing(false);
     // Make a put request to save your updated color
     // think about where will you get the id from...
     // where is is saved right now?
@@ -118,19 +117,19 @@ const ColorList = ({ colors, updateColors }) => {
       <ul>
         <li>
           <span className="add-wrap">
-            <div className="add" onClick={() => addSwitch()}>
+            <div className="add" onClick={() => editSwitch()}>
               +
             </div>
             <p>Add New Color</p>
           </span>
         </li>
         {colors.map(color => (
-          <li key={color.color} onClick={e => editSwitch(e)}>
+          <li key={color.color} onClick={() => addSwitch()}>
             <span>
               <span
                 className="delete"
                 onClick={e => {
-                  e.stopPropagation();
+                  e.preventDefault();
                   deleteColor(color);
                 }}
               >
@@ -150,12 +149,7 @@ const ColorList = ({ colors, updateColors }) => {
           <legend>edit color</legend>
           <label>
             color name:
-            <input
-              onChange={e =>
-                setColorToEdit({ ...colorToEdit, color: e.target.value })
-              }
-              value={colorToEdit.color}
-            />
+            <input onChange={e => editColor(e)} value={colorToEdit.color} />
           </label>
           <label>
             hex code:
@@ -170,7 +164,9 @@ const ColorList = ({ colors, updateColors }) => {
             />
           </label>
           <div className="button-row">
-            <button type="submit">save</button>
+            <button type="submit" onClick={e => saveEdit(e)}>
+              save
+            </button>
             <button type="button" onClick={() => setEditing(false)}>
               cancel
             </button>
@@ -178,7 +174,7 @@ const ColorList = ({ colors, updateColors }) => {
         </form>
       )}
       {adding && (
-        <form className="add-wrapper" onSubmit={() => handleAdd(colorToAdd)}>
+        <form className="add-wrapper" onSubmit={e => handleAdd(e)}>
           <legend>add color</legend>
           <label>
             <p>color name:</p>
