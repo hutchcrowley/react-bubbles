@@ -9,81 +9,58 @@ const initialColor = {
 }
 
 const ColorList = ({ colors, updateColors }) => {
-  // Initializing the colorToEdit var to state. This will hold the currently selected color to be updated using the .PUT method
+  // Initializing the colorState var to state. This will hold the currently selected color to be updated using the .PUT method
+  const [colorState, setColorState] = useState(initialColor)
   // setting the editing status of the color to edit to state
   const [editing, setEditing] = useState(false)
-  const [colorToEdit, setColorToEdit] = useState(initialColor)
   console.log('colors variable in ColorList component: ', colors)
 
-  // const [colorToAdd, setColorToAdd] = useState(initialColor)
   // setting the adding status of the color to edit to state
   const [adding, setAdding] = useState(false)
 
   const history = useHistory()
 
-  const addSwitch = () => {
+  // <== section for functions related to adding a new color ==>
+
+  // function to toggle visibility of AddForm component
+  const addSwitch = e => {
+    e.preventDefault()
     setAdding(!adding)
     setEditing(false)
   }
 
-  const editSwitch = () => {
-    setEditing(!editing)
+  // helper function to clean up AddForm and send new color information to handleAdd function
+  const saveAdd = () => {
     setAdding(false)
+    handleAdd(colorState)
   }
 
-  // function addHandler (e) {
-  //   e.preventDefault()
-  //   setEditing(!editing)
-  //   setColorToAdd({
-  //     ...colorToAdd,
-  //     [e.target.name]: e.target.value
-  //   })
-  // }
-
   // function that makes a post request to add a new color
-  function handleAdd (colorToAdd) {
+  function handleAdd (colorState) {
     axiosWithAuth()
-      .post(`/api/colors`, colorToAdd)
+      .post(`/api/colors`, colorState)
       .then(res => {
-        const newColors = colors.map(color => {
-          if (color) {
-            return res.data
-          }
-          return newColors
-        })
-        updateColors(newColors)
+        updateColors(res.data)
       })
       .then(history.push('/protected'))
       .catch(err => console.log('ERROR: ', err))
   }
 
-  // function that enables editing via the edit form
-  // const editColor = color => {
-  //   setColorToEdit(color)
-  // }
-
-  // function that sends data to the updateHandler function
-  const saveEdit = e => {
-    e.preventDefault()
-    setEditing(false)
-    // Make a put request to save your updated color
-    // think about where will you get the id from...
-    // where is is saved right now?
-    updateHandler(colorToEdit)
+  function editColor (color) {
+    setEditing(!editing)
+    setAdding(false)
+    setColorState({
+      ...colorState,
+      id: color.id
+    })
   }
 
-  // function to  make a put request to the server to edit a color by color.id
-  function updateHandler (colorToEdit) {
+  const handleUpdate = colorState => {
     axiosWithAuth()
-      .put(`/api/colors/${colorToEdit.id}`, colorToEdit)
-      .then(response => {
-        const updatedColors = colors.map(color => {
-          if (color.id === colorToEdit.id) {
-            return response.data
-          }
-          return color
-        })
-        updateColors(updatedColors)
+      .put(`/api/colors/${colorState.id}`, colorState)
+      .then(res => {
+        console.log(res.data)
+        updateColors(res.data)
       })
       .then(history.push('/protected'))
       .catch(err => console.log(err))
@@ -109,14 +86,20 @@ const ColorList = ({ colors, updateColors }) => {
       <ul>
         <li>
           <span className='add-wrap'>
-            <div className='add' onClick={() => addSwitch()}>
+            <div className='add' onClick={e => addSwitch(e)}>
               +
             </div>
             <p>Add New Color</p>
           </span>
         </li>
         {colors.map(color => (
-          <li key={color.color} onClick={() => editSwitch()}>
+          <li
+            key={color.color}
+            onClick={e => {
+              e.stopPropagation()
+              editColor(color)
+            }}
+          >
             <span>
               <span
                 className='delete'
@@ -137,27 +120,33 @@ const ColorList = ({ colors, updateColors }) => {
         ))}
       </ul>
       {editing && (
-        <form className='edit-wrap' onSubmit={saveEdit}>
+        <form
+          className='edit-wrap'
+          onSubmit={e => {
+            e.stopPropagation()
+            handleUpdate()
+          }}
+        >
           <legend>edit color</legend>
           <label>
             color name:
             <input
               onChange={e =>
-                setColorToEdit({ ...colorToEdit, color: e.target.value })
+                setColorState({ ...colorState, color: e.target.value })
               }
-              value={colorToEdit.color}
+              value={colorState.color}
             />
           </label>
           <label>
             hex code:
             <input
               onChange={e =>
-                setColorToEdit({
-                  ...colorToEdit,
+                setColorState({
+                  ...colorState,
                   code: { hex: e.target.value }
                 })
               }
-              value={colorToEdit.code.hex}
+              value={colorState.code.hex}
             />
           </label>
           <div className='button-row'>
@@ -170,27 +159,27 @@ const ColorList = ({ colors, updateColors }) => {
         </form>
       )}
       {adding && (
-        <form className='add-wrapper' onSubmit={e => handleAdd(e)}>
+        <form className='add-wrapper' onSubmit={e => saveAdd(e)}>
           <legend>add color</legend>
           <label>
             <p>color name:</p>
             <input
               onChange={e =>
-                setColorToEdit({ ...colorToEdit, color: e.target.value })
+                setColorState({ ...colorState, color: e.target.value })
               }
-              value={colorToEdit.color}
+              value={colorState.color}
             />
           </label>
           <label>
             hex code:
             <input
               onChange={e =>
-                setColorToEdit({
-                  ...colorToEdit,
+                setColorState({
+                  ...colorState,
                   code: { hex: e.target.value }
                 })
               }
-              value={colorToEdit.code.hex}
+              value={colorState.code.hex}
             />
           </label>
           <div className='button-row'>
