@@ -15,7 +15,7 @@ const ColorList = ({ colors, updateColors }) => {
   const [colorToEdit, setColorToEdit] = useState(initialColor)
   console.log('colors variable in ColorList component: ', colors)
 
-  const [colorToAdd, setColorToAdd] = useState(initialColor)
+  // const [colorToAdd, setColorToAdd] = useState(initialColor)
   // setting the adding status of the color to edit to state
   const [adding, setAdding] = useState(false)
 
@@ -31,14 +31,14 @@ const ColorList = ({ colors, updateColors }) => {
     setAdding(false)
   }
 
-  function addHandler (e) {
-    e.preventDefault()
-    setEditing(!editing)
-    setColorToAdd({
-      ...colorToAdd,
-      [e.target.name]: e.target.value
-    })
-  }
+  // function addHandler (e) {
+  //   e.preventDefault()
+  //   setEditing(!editing)
+  //   setColorToAdd({
+  //     ...colorToAdd,
+  //     [e.target.name]: e.target.value
+  //   })
+  // }
 
   // function that makes a post request to add a new color
   function handleAdd (colorToAdd) {
@@ -49,7 +49,7 @@ const ColorList = ({ colors, updateColors }) => {
           if (color) {
             return res.data
           }
-          return color, newColors
+          return newColors
         })
         updateColors(newColors)
       })
@@ -131,7 +131,7 @@ const ColorList = ({ colors, updateColors }) => {
             </span>
             <div
               className='color-box'
-              // style={{ backgroundColor: color.code.hex }}
+              style={{ backgroundColor: color.code.hex }}
             />
           </li>
         ))}
@@ -175,17 +175,22 @@ const ColorList = ({ colors, updateColors }) => {
           <label>
             <p>color name:</p>
             <input
-              onChange={e => addHandler(e)}
-              value={colorToAdd.color}
-              name='color'
+              onChange={e =>
+                setColorToEdit({ ...colorToEdit, color: e.target.value })
+              }
+              value={colorToEdit.color}
             />
           </label>
           <label>
             hex code:
             <input
-              onChange={e => addHandler(e)}
-              value={colorToAdd.code.hex}
-              name='code'
+              onChange={e =>
+                setColorToEdit({
+                  ...colorToEdit,
+                  code: { hex: e.target.value }
+                })
+              }
+              value={colorToEdit.code.hex}
             />
           </label>
           <div className='button-row'>
