@@ -5,7 +5,8 @@ import { axiosWithAuth } from '../utils/axiosWithAuth'
 
 const initialColor = {
   color: '',
-  code: { hex: '' }
+  code: { hex: '' },
+  id: ''
 }
 
 const ColorList = ({ colors, updateColors }) => {
@@ -47,6 +48,7 @@ const ColorList = ({ colors, updateColors }) => {
   }
 
   function editColor (color) {
+    console.log('color variable in editColor: ', color)
     setEditing(!editing)
     setAdding(false)
     setColorState({
@@ -55,15 +57,18 @@ const ColorList = ({ colors, updateColors }) => {
     })
   }
 
-  const handleUpdate = colorState => {
+  const handleUpdate = e => {
+    e.preventDefault()
+    console.log('colorState var in handleUpdate: ', colorState)
     axiosWithAuth()
       .put(`/api/colors/${colorState.id}`, colorState)
-      .then(res => {
-        console.log(res.data)
-        updateColors(res.data)
-      })
-      .then(history.push('/protected'))
-      .catch(err => console.log(err))
+      .then(
+        axiosWithAuth()
+          .get(`/api/colors`)
+          .then(res => updateColors(res.data))
+          .catch(err => console.log('ERROR: data not returned from API: ', err))
+      )
+      .catch(err => console.log('ERROR: data not returned from API: ', err))
   }
 
   // make a delete request to delete this color
@@ -120,13 +125,7 @@ const ColorList = ({ colors, updateColors }) => {
         ))}
       </ul>
       {editing && (
-        <form
-          className='edit-wrap'
-          onSubmit={e => {
-            e.stopPropagation()
-            handleUpdate()
-          }}
-        >
+        <form className='edit-wrap' onSubmit={e => handleUpdate(e)}>
           <legend>edit color</legend>
           <label>
             color name:
