@@ -283,11 +283,17 @@ body,
 
     .edit-wrap {
       border: 6px outset rgb(78, 78, 78);
-      padding: 1.5rem;
+      padding: 1.5rem 5rem;
       justify-items: center;
       margin: 3rem 1rem 2rem 1rem;
+      display: flex;
+      flex-direction: column;
+      max-width: 70vw;
+      min-width: 30vw;
 
       form {
+        max-width: 75%;
+        min-width: 55%;
         margin-top: 60px;
         display: flex;
         flex-direction: column;
