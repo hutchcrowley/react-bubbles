@@ -1,32 +1,28 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react'
 
-import NavBar from "./NavBar";
-import Bubbles from "./Bubbles";
-import ColorList from "./ColorList";
-import Spinner from "./Spinner";
+import NavBar from './NavBar'
+import Bubbles from './Bubbles'
+import ColorList from './ColorList'
+import Spinner from './Spinner'
 
-import { axiosWithAuth } from "../utils/axiosWithAuth";
+import { axiosWithAuth } from '../utils/axiosWithAuth'
 
 const BubblePage = () => {
-  const [colorList, setColorList] = useState([]);
+  const [colorList, setColorList] = useState([])
 
-  const [isLoading, setIsLoading] = useState();
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     axiosWithAuth()
       .get(`/api/colors`)
-      .then(setIsLoading(true))
-      .then(res => {
-        console.log(res.data);
-        setColorList(res.data);
-        setIsLoading(false);
-      })
-      .catch(err => console.log(err));
-  }, []);
+      .then(res => setColorList(res.data))
+      .then(setIsLoading(false))
+      .catch(err => console.log(err))
+  }, [])
 
   return (
-    <div className="bubble-page">
-      <div className="bubble-nav">
+    <div className='bubble-page'>
+      <div className='bubble-nav'>
         <NavBar />
       </div>
       {!isLoading ? (
@@ -38,7 +34,7 @@ const BubblePage = () => {
         <Spinner />
       )}
     </div>
-  );
-};
+  )
+}
 
-export default BubblePage;
+export default BubblePage

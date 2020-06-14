@@ -3,9 +3,7 @@ import axios from "axios";
 
 import { useHistory } from "react-router-dom";
 
-const Login = () => {
-  const [loggedIn, setLoggedIn] = useState(false);
-
+const Login = ({ setLoggedIn }) => {
   const [state, setState] = useState({
     username: "",
     password: ""
@@ -40,18 +38,22 @@ const Login = () => {
   return (
     <>
       <form className="login-form" onSubmit={login}>
-        <input
-          placeholder="username"
-          name="username"
-          value={state.username}
-          onChange={handleChange}
-        />
-        <input
-          placeholder="password"
-          name="password"
-          value={state.password}
-          onChange={handleChange}
-        />
+        <label>
+          <input
+            placeholder="username"
+            name="username"
+            value={state.username}
+            onChange={handleChange}
+          />
+        </label>
+        <label>
+          <input
+            placeholder="password"
+            name="password"
+            value={state.password}
+            onChange={handleChange}
+          />
+        </label>
         <button>Log In</button>
       </form>
     </>
