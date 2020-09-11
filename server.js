@@ -142,7 +142,7 @@ app.put("/api/colors/:id", authenticator, (req, res) => {
       .status(422)
       .send("Make sure your request body has all the fields it needs");
   }
-  colors = colors.map(color => {
+  colors = colors.map((color) => {
     if (`${color.id}` === req.params.id) {
       return req.body;
     }
@@ -155,12 +155,12 @@ app.put("/api/colors/:id", authenticator, (req, res) => {
 app.delete("/api/colors/:id", authenticator, (req, res) => {
   if (!req.params.id)
     res.status(400).send("Your request is missing the color id");
-  colors = colors.filter(color => `${color.id}` !== req.params.id);
+  colors = colors.filter((color) => `${color.id}` !== req.params.id);
   res.status(202).send(req.params.id);
 });
 
 // tests if server is running and connected to front end
-app.get("/", function(req, res) {
+app.get("/", function (req, res) {
   res.send("App is working 👍");
 });
 
